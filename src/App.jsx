@@ -91,44 +91,76 @@ const features = [
 const services = [
   {
     title: "Business Websites",
-    copy: "Credible, conversion-focused company websites that clearly present your business and build trust.",
+    copy: "Custom websites for restaurants, grocery stores, salons, retailers, clinics, and other local businesses.",
     icon: Globe,
   },
   {
-    title: "Portfolio Websites",
-    copy: "Elegant portfolios and personal brand sites designed to make your work easy to discover.",
-    icon: Sparkles,
-  },
-  {
-    title: "E-commerce Websites",
-    copy: "Modern storefront experiences that guide customers from discovery to confident purchase.",
-    icon: ShoppingBag,
-  },
-  {
-    title: "Booking Platforms",
-    copy: "Appointment and reservation experiences that make it simple for customers to engage.",
-    icon: CalendarCheck,
-  },
-  {
-    title: "Admin Dashboards",
-    copy: "Secure operational tools that organize business activity, customer data, and day-to-day workflows.",
-    icon: BarChart3,
-  },
-  {
-    title: "Mobile Apps",
-    copy: "Mobile experiences that keep your services accessible and your customers connected.",
+    title: "Business Mobile Apps",
+    copy: "Mobile applications that help customers browse, order, book, connect, and return to your business.",
     icon: Smartphone,
   },
   {
-    title: "Custom Features",
-    copy: "Purpose-built forms, payments, portals, integrations, and automation for unique requirements.",
-    icon: Code2,
+    title: "Customer Ordering & Booking",
+    copy: "Digital flows for menus, product catalogues, orders, reservations, appointments, and enquiries.",
+    icon: CalendarCheck,
   },
   {
-    title: "Maintenance & Hosting",
-    copy: "Performance monitoring, technical updates, hosting guidance, and support after launch.",
+    title: "Integrated Admin Panel",
+    copy: "A private management dashboard included with your solution to operate your business digitally.",
+    icon: MonitorSmartphone,
+  },
+  {
+    title: "Employee Management",
+    copy: "Maintain employee details, roles, attendance-related information, and team records in one place.",
+    icon: Building2,
+  },
+  {
+    title: "Salary Management",
+    copy: "Track employee salary information and payment records through your secured admin panel.",
+    icon: BarChart3,
+  },
+  {
+    title: "Business Analytics",
+    copy: "View sales, orders, customer activity, revenue trends, and useful performance insights.",
+    icon: BarChart3,
+  },
+  {
+    title: "Support & Upgrades",
+    copy: "Add business-specific features later while we support improvements, updates, and hosting guidance.",
     icon: CloudCog,
   },
+];
+
+const businessTypes = [
+  {
+    title: "Restaurants & Cafes",
+    copy: "Digital menus, online orders, table bookings, order tracking, and sales insights.",
+    icon: CalendarCheck,
+  },
+  {
+    title: "Grocery & Retail Shops",
+    copy: "Product catalogues, ordering, stock-oriented workflows, customer records, and revenue analysis.",
+    icon: ShoppingBag,
+  },
+  {
+    title: "Salons & Service Businesses",
+    copy: "Appointments, services, staff allocation, customer history, and operational reporting.",
+    icon: Sparkles,
+  },
+  {
+    title: "Any Modern Business",
+    copy: "A tailored web or app experience with an admin system structured around your daily work.",
+    icon: Building2,
+  },
+];
+
+const adminCapabilities = [
+  "Employee profiles and roles",
+  "Salary and payment records",
+  "Orders, bookings, or customer enquiries",
+  "Revenue and business analytics",
+  "Custom reports and future features",
+  "Secure access for the business owner",
 ];
 
 const process = [
@@ -641,13 +673,19 @@ function ServicesPage() {
     <>
       <PageHero
         eyebrow="Services"
-        title="Digital solutions designed to"
-        accent="move business."
-        copy="From premium company websites to mobile experiences and custom platforms, NeutralStack builds technology your customers can trust and your team can grow with."
+        title="Websites and apps built around your"
+        accent="real business."
+        copy="Whether you run a restaurant, grocery store, salon, shop, or another business, NeutralStack builds your customer experience together with an admin panel to manage operations and understand growth."
       />
       <section className="section-spacing">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <SectionIntro
+            eyebrow="What We Deliver"
+            title="A customer-facing digital presence and a management system behind it"
+            copy="Your website or mobile app helps customers interact with your business. Your secure admin panel helps you run it, with business details, employee information, salaries, activity, and analytics available in one place."
+            centered
+          />
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {services.map(({ title, copy, icon: Icon }, index) => (
               <article key={title} className="service-card reveal rounded-2xl p-6" style={{ animationDelay: `${(index % 4) * 75}ms` }}>
                 <Icon className="mb-5 h-6 w-6 text-blue-400" />
@@ -656,24 +694,56 @@ function ServicesPage() {
               </article>
             ))}
           </div>
-          <div className="mt-14 grid gap-5 lg:grid-cols-3">
-            {["Strategy & UI Design", "Development & Deployment", "Maintenance & Growth"].map((title, index) => (
-              <div key={title} className="glass-card rounded-2xl p-7">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-400">0{index + 1}</p>
-                <h2 className="mt-4 font-sans text-xl font-semibold text-white">{title}</h2>
-                <p className="mt-3 leading-7 text-slate-400">
-                  {[
-                    "Shape a clear solution, visual direction, and customer journey before development begins.",
-                    "Build, test, and launch an experience engineered for responsive performance and stability.",
-                    "Continue with reliable support, upgrades, improvements, and technical guidance.",
-                  ][index]}
-                </p>
-              </div>
+        </div>
+      </section>
+      <section className="section-spacing pt-4">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <SectionIntro
+            eyebrow="Built For Every Business"
+            title="One approach, customized for your industry"
+            copy="The experience and admin panel are shaped around how your business actually serves customers and manages daily work."
+            centered
+          />
+          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {businessTypes.map(({ title, copy, icon: Icon }, index) => (
+              <article key={title} className="glass-card reveal rounded-2xl p-7" style={{ animationDelay: `${index * 80}ms` }}>
+                <Icon className="mb-5 h-6 w-6 text-blue-400" />
+                <h2 className="font-sans text-lg font-semibold text-white">{title}</h2>
+                <p className="mt-3 text-sm leading-7 text-slate-400">{copy}</p>
+              </article>
             ))}
           </div>
         </div>
       </section>
-      <CtaBanner title="Need a digital solution built around your business?" />
+      <section className="section-spacing pt-4">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
+          <SectionIntro
+            eyebrow="Admin Panel Included"
+            title="Manage the business behind the website or app"
+            copy="Owners should not only receive a beautiful digital presence. NeutralStack provides a secure management panel where important business information can be organized, monitored, and expanded as required."
+          />
+          <div className="comparison-premium rounded-3xl p-[1px]">
+            <div className="rounded-[calc(1.5rem-1px)] bg-[#0b142c]/95 p-7 sm:p-9">
+              <p className="mb-7 flex items-center gap-3 text-lg font-semibold text-white">
+                <Workflow className="h-6 w-6 text-blue-400" />
+                Your Business Control Center
+              </p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {adminCapabilities.map((capability) => (
+                  <p key={capability} className="glass-card flex items-start gap-3 rounded-xl p-4 text-sm font-medium text-white">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-blue-400" />
+                    {capability}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <CtaBanner
+        title="Build your customer experience and admin panel together."
+        copy="Tell us what type of business you run, and NeutralStack will plan a website or app with the management features you need."
+      />
     </>
   );
 }

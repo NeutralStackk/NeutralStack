@@ -17,7 +17,20 @@ For contact-form delivery in development, run the backend in a second terminal:
 npm run dev:server
 ```
 
-Open the local URL printed by Vite, typically `http://localhost:5173`. The About Us page is available at `/about`.
+Open the local URL printed by Vite, typically `http://localhost:5173`.
+
+## Website Pages
+
+The website uses separate marketing pages with a shared NeutralStack brand system:
+
+- `/` - company homepage
+- `/about` - company story and principles
+- `/goal` - mission and business promise
+- `/services` - detailed digital services
+- `/why-us` - advantages of working with NeutralStack
+- `/process` - delivery and managed-support workflow
+- `/comparison` - traditional freelancer comparison
+- `/contact` - project inquiry form
 
 ## Contact Email Setup
 
@@ -89,9 +102,8 @@ Render issues and renews HTTPS certificates automatically after DNS verification
 
 The implementation includes:
 
-- Responsive navbar and conversion-focused hero section
-- Dedicated About Us page with mission and company principles
-- Our Goal, Why NeutralStack, service offering, and process sections
-- Traditional freelancer versus NeutralStack comparison
+- Responsive shared navigation and conversion-focused homepage hero
+- Dedicated About, Goal, Services, Why Us, Process, Comparison, and Contact pages
+- Logo-aligned blue-purple visual system with subtle page and card animations
 - Contact form with secure server-side email delivery and business footer
 - Custom generated marketing visual in `public/hero-neutralstack.png`

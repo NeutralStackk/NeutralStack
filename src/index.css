@@ -30,6 +30,10 @@ body {
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none;
+}
+
 h1,
 h2 {
   font-family: "Sora", "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -47,6 +51,102 @@ h2 {
   color: transparent;
 }
 
+.brand-mark {
+  position: relative;
+  display: inline-flex;
+  height: 2.65rem;
+  width: 2.65rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(147, 197, 253, 0.25);
+  border-radius: 0.85rem;
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  box-shadow: 0 0 32px rgba(59, 130, 246, 0.34);
+}
+
+.brand-mark::before {
+  position: absolute;
+  inset: -65%;
+  content: "";
+  background: conic-gradient(transparent, rgba(255, 255, 255, 0.55), transparent 30%);
+  animation: orbit 5s linear infinite;
+}
+
+.brand-mark::after {
+  position: absolute;
+  inset: 1px;
+  content: "";
+  border-radius: calc(0.85rem - 1px);
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+}
+
+.brand-button {
+  background: linear-gradient(100deg, #7c3aed, #2563eb);
+  box-shadow: 0 0 38px rgba(59, 130, 246, 0.28);
+}
+
+.brand-button:hover {
+  box-shadow: 0 0 50px rgba(59, 130, 246, 0.48);
+}
+
+.nav-link {
+  position: relative;
+  padding: 0.45rem 0;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  transition: color 200ms ease;
+}
+
+.nav-link::after {
+  position: absolute;
+  right: 0;
+  bottom: -0.55rem;
+  left: 0;
+  height: 2px;
+  content: "";
+  background: linear-gradient(90deg, #7c3aed, #3b82f6);
+  opacity: 0;
+  transform: scaleX(0);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #fff;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.mobile-menu {
+  background: rgba(7, 12, 25, 0.98);
+  animation: menuDown 220ms ease both;
+}
+
+.mobile-link {
+  display: block;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  color: #e2e8f0;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.mobile-link:hover,
+.mobile-link.active {
+  background: rgba(59, 130, 246, 0.12);
+  color: #fff;
+}
+
+.brand-orb {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.18), rgba(124, 58, 237, 0.08) 40%, transparent 70%);
+  filter: blur(10px);
+  animation: breathe 6s ease-in-out infinite;
+}
+
 .hero-grid {
   background-image:
     linear-gradient(rgba(59, 130, 246, 0.065) 1px, transparent 1px),
@@ -55,11 +155,41 @@ h2 {
   mask-image: radial-gradient(circle at 64% 22%, black 0%, transparent 67%);
 }
 
+.page-hero::after {
+  position: absolute;
+  right: 15%;
+  bottom: 0;
+  left: 15%;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.32), transparent);
+}
+
+.page-enter {
+  animation: pageRise 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-visual {
+  animation: visualRise 800ms cubic-bezier(0.16, 1, 0.3, 1) 100ms both;
+}
+
+.floating-badge {
+  animation: floatBadge 5.5s ease-in-out infinite;
+}
+
+.reveal {
+  animation: cardRise 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 .glass-card {
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: linear-gradient(125deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.026));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035), 0 18px 60px rgba(0, 0, 0, 0.18);
   backdrop-filter: blur(18px);
+}
+
+.logo-statement {
+  text-align: left;
 }
 
 .comparison-premium {
@@ -79,6 +209,18 @@ h2 {
   border-color: rgba(59, 130, 246, 0.34);
   background-color: rgba(30, 41, 59, 0.54);
   transform: translateY(-3px);
+}
+
+.process-row {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(120deg, rgba(15, 23, 42, 0.64), rgba(30, 41, 59, 0.34));
+  transition: border-color 260ms ease, transform 260ms ease, box-shadow 260ms ease;
+}
+
+.process-row:hover {
+  border-color: rgba(59, 130, 246, 0.32);
+  box-shadow: 0 20px 55px rgba(5, 16, 45, 0.4);
+  transform: translateX(4px);
 }
 
 .cta-panel {
@@ -141,4 +283,87 @@ h2 {
 ::selection {
   background: rgba(59, 130, 246, 0.38);
   color: #fff;
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes pageRise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes visualRise {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cardRise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatBadge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes menuDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
 }

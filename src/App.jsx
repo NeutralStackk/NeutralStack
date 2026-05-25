@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   BarChart3,
   Building2,
+  CalendarCheck,
   Check,
   CheckCircle2,
   CloudCog,
@@ -20,141 +21,198 @@ import {
   ShoppingBag,
   Smartphone,
   Sparkles,
+  Workflow,
   X,
   XCircle,
 } from "lucide-react";
 
 const navLinks = [
-  { label: "Home", href: "/#home" },
-  { label: "About Us", href: "/about" },
-  { label: "Why Us", href: "/#why-us" },
-  { label: "Services", href: "/#services" },
-  { label: "Comparison", href: "/#comparison" },
-  { label: "Contact", href: "/#contact" },
+  { label: "About", href: "/about" },
+  { label: "Goal", href: "/goal" },
+  { label: "Services", href: "/services" },
+  { label: "Why Us", href: "/why-us" },
+  { label: "Process", href: "/process" },
+  { label: "Comparison", href: "/comparison" },
 ];
 
 const heroFeatures = ["Fast Launch", "Managed Platform", "Upgrade Anytime", "Websites + Mobile Apps"];
 
 const goals = [
   {
-    title: "No complicated development cycles.",
-    copy: "A direct, guided path from concept to a polished digital launch.",
-    icon: Layers3,
+    title: "Simpler launches",
+    copy: "A guided path from business idea to a refined digital launch without complex development management.",
+    icon: Rocket,
   },
   {
-    title: "No hiring expensive teams.",
-    copy: "Access design, development, deployment, and support through one partner.",
+    title: "Smarter investment",
+    copy: "Start with what creates value now, then add features and capacity as your business grows.",
+    icon: BarChart3,
+  },
+  {
+    title: "Ongoing confidence",
+    copy: "Hosting, improvements, and maintenance remain supported after your website or app launches.",
     icon: ShieldCheck,
-  },
-  {
-    title: "No maintenance stress.",
-    copy: "We keep your digital presence stable, updated, and ready to evolve.",
-    icon: CloudCog,
   },
 ];
 
 const features = [
   {
     title: "Faster Launch Time",
-    copy: "Go live in days, not months, with focused delivery built around your business priorities.",
+    copy: "Focused workflows help your business go online in days or weeks rather than long, uncertain cycles.",
     icon: Rocket,
   },
   {
     title: "Pay As You Grow",
-    copy: "Begin with what matters today and add powerful capabilities as demand grows.",
+    copy: "Launch the essential experience first and add integrations or advanced features when you need them.",
     icon: BarChart3,
   },
   {
-    title: "Fully Managed",
-    copy: "Hosting, updates, maintenance, and technical guidance stay under one accountable team.",
+    title: "Fully Managed Delivery",
+    copy: "Design, development, deployment, hosting support, and updates stay coordinated under one partner.",
     icon: Headphones,
   },
   {
     title: "Custom Feature Requests",
-    copy: "Need bookings, payments, integrations, or an internal workflow? We build it.",
+    copy: "From bookings to payments and internal workflows, we build functions aligned to your operations.",
     icon: Code2,
   },
   {
     title: "Websites + Mobile Apps",
-    copy: "Offer consistent, premium customer experiences across web and mobile.",
+    copy: "Deliver consistent experiences across desktop and mobile channels with one digital team.",
     icon: MonitorSmartphone,
+  },
+  {
+    title: "Business-Focused Support",
+    copy: "Clear communication and reliable guidance help you make confident decisions after launch.",
+    icon: Building2,
   },
 ];
 
-const traditional = [
-  "One-time delivery",
-  "Maintenance is your responsibility",
-  "Fixed functionality",
-  "Slow development cycles",
-  "Separate teams for apps & websites",
-  "Hard to scale",
-];
-
-const modern = [
-  "Long-term managed solution",
-  "Everything managed by us",
-  "Flexible upgrades",
-  "Faster deployment",
-  "One complete platform",
-  "Built for growth",
-];
-
 const services = [
-  { title: "Business Websites", copy: "Credible, conversion-ready company websites.", icon: Globe },
-  { title: "Portfolio Websites", copy: "Elegant digital showcases for your work and brand.", icon: Sparkles },
-  { title: "E-commerce Websites", copy: "Online storefronts built to make purchasing simple.", icon: ShoppingBag },
-  { title: "Booking Platforms", copy: "Smooth scheduling experiences for service businesses.", icon: CheckCircle2 },
-  { title: "Admin Dashboards", copy: "Practical internal tools to manage operations.", icon: BarChart3 },
-  { title: "Mobile Apps", copy: "Customer-facing mobile experiences for daily reach.", icon: Smartphone },
-  { title: "Custom Features", copy: "Integrations and workflows shaped for your needs.", icon: Code2 },
-  { title: "Maintenance & Hosting", copy: "Ongoing performance, updates, and dependable support.", icon: CloudCog },
+  {
+    title: "Business Websites",
+    copy: "Credible, conversion-focused company websites that clearly present your business and build trust.",
+    icon: Globe,
+  },
+  {
+    title: "Portfolio Websites",
+    copy: "Elegant portfolios and personal brand sites designed to make your work easy to discover.",
+    icon: Sparkles,
+  },
+  {
+    title: "E-commerce Websites",
+    copy: "Modern storefront experiences that guide customers from discovery to confident purchase.",
+    icon: ShoppingBag,
+  },
+  {
+    title: "Booking Platforms",
+    copy: "Appointment and reservation experiences that make it simple for customers to engage.",
+    icon: CalendarCheck,
+  },
+  {
+    title: "Admin Dashboards",
+    copy: "Secure operational tools that organize business activity, customer data, and day-to-day workflows.",
+    icon: BarChart3,
+  },
+  {
+    title: "Mobile Apps",
+    copy: "Mobile experiences that keep your services accessible and your customers connected.",
+    icon: Smartphone,
+  },
+  {
+    title: "Custom Features",
+    copy: "Purpose-built forms, payments, portals, integrations, and automation for unique requirements.",
+    icon: Code2,
+  },
+  {
+    title: "Maintenance & Hosting",
+    copy: "Performance monitoring, technical updates, hosting guidance, and support after launch.",
+    icon: CloudCog,
+  },
 ];
 
 const process = [
   {
     title: "Share Your Business Idea",
-    copy: "Tell us about your audience, goals, current challenges, and the outcome you want online.",
+    copy: "We learn your audience, offers, challenges, and what success should look like online.",
+    outcome: "Clarity on goals and scope",
   },
   {
-    title: "Choose Your Plan",
-    copy: "Select an approach that meets today’s needs while leaving room to add features later.",
+    title: "Plan The Right Solution",
+    copy: "We recommend the website, app, features, and launch approach that fits your priorities.",
+    outcome: "Practical delivery roadmap",
   },
   {
-    title: "We Build & Launch",
-    copy: "We design, develop, review, and launch a refined digital experience with clear communication.",
+    title: "Design, Build & Launch",
+    copy: "We turn the approved direction into a polished customer experience and deploy it reliably.",
+    outcome: "A live premium experience",
   },
   {
-    title: "We Manage Everything",
-    copy: "Hosting, updates, maintenance, and improvements are handled by us after launch.",
+    title: "Manage & Improve",
+    copy: "We support maintenance, updates, new features, and future growth after your launch.",
+    outcome: "Long-term digital partner",
   },
 ];
 
 const values = [
   {
     title: "Business-first thinking",
-    copy: "Technology is only valuable when it helps you earn trust, improve service, or operate more efficiently.",
+    copy: "We evaluate technology through business impact: credibility, leads, customer service, and efficiency.",
     icon: Building2,
   },
   {
     title: "Premium craft",
-    copy: "Every layout, interaction, and mobile experience is designed to make your brand feel credible and modern.",
+    copy: "Every screen and interaction is shaped to make your brand feel modern, clear, and trustworthy.",
     icon: Sparkles,
   },
   {
     title: "Long-term partnership",
-    copy: "We stay involved beyond launch so your website or app can mature alongside the business.",
+    copy: "NeutralStack remains available as your requirements mature, rather than disappearing after delivery.",
     icon: Headphones,
   },
 ];
 
-function Button({ children, href = "/#contact", secondary = false, className = "" }) {
+const traditional = [
+  "One-time delivery with limited continuity",
+  "Maintenance and hosting decisions fall to you",
+  "Fixed scope makes new needs harder to add",
+  "Multiple vendors may be needed for apps and websites",
+  "Timelines can become unclear as complexity increases",
+  "Scaling often means beginning a new project",
+];
+
+const modern = [
+  "Long-term managed digital solution",
+  "Hosting, updates, and improvements supported by us",
+  "Flexible feature upgrades as your business develops",
+  "Websites and mobile apps under one partner",
+  "Focused planning and faster delivery",
+  "Designed to grow with your business",
+];
+
+function BrandMark({ compact = false }) {
+  return (
+    <span className="flex items-center gap-3">
+      <span className="brand-mark">
+        <Layers3 className="relative z-10 h-5 w-5 text-white" />
+      </span>
+      {!compact && (
+        <span className="text-xl font-semibold tracking-tight text-white">
+          Neutral<span className="gradient-text">Stack</span>
+        </span>
+      )}
+    </span>
+  );
+}
+
+function Button({ children, href = "/contact", secondary = false, className = "" }) {
   return (
     <a
       href={href}
       className={`group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition duration-300 ${
         secondary
           ? "border border-white/15 bg-white/[0.04] text-white hover:border-electric/50 hover:bg-white/[0.08]"
-          : "bg-gradient-to-r from-violet to-blue-600 text-white shadow-glow hover:-translate-y-0.5 hover:shadow-[0_0_48px_rgba(59,130,246,0.48)]"
+          : "brand-button text-white shadow-glow hover:-translate-y-0.5"
       } ${className}`}
     >
       {children}
@@ -167,32 +225,29 @@ function SectionIntro({ eyebrow, title, copy, centered = false }) {
   return (
     <div className={centered ? "mx-auto max-w-3xl text-center" : "max-w-2xl"}>
       <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-blue-400">{eyebrow}</p>
-      <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
-        {title}
-      </h2>
+      <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">{title}</h2>
       {copy && <p className="mt-5 text-base leading-8 text-slate-400 sm:text-lg">{copy}</p>}
     </div>
   );
 }
 
-function Navbar() {
+function Navbar({ currentPath }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#080e1e]/75 backdrop-blur-xl">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
-        <a href="/" className="flex items-center gap-3" aria-label="NeutralStack home">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet to-electric shadow-glow">
-            <Layers3 className="h-5 w-5 text-white" />
-          </span>
-          <span className="text-xl font-semibold tracking-tight text-white">
-            Neutral<span className="text-blue-400">Stack</span>
-          </span>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#070c19]/78 backdrop-blur-xl">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
+        <a href="/" aria-label="NeutralStack home">
+          <BrandMark />
         </a>
 
-        <nav className="hidden items-center gap-9 lg:flex" aria-label="Main navigation">
+        <nav className="hidden items-center gap-6 lg:flex" aria-label="Main navigation">
           {navLinks.map((link) => (
-            <a key={link.label} href={link.href} className="text-sm text-slate-300 transition hover:text-white">
+            <a
+              key={link.label}
+              href={link.href}
+              className={`nav-link ${currentPath === link.href ? "active" : ""}`}
+            >
               {link.label}
             </a>
           ))}
@@ -211,13 +266,16 @@ function Navbar() {
       </div>
 
       {open && (
-        <nav className="border-t border-white/10 bg-[#080e1e] px-5 pb-6 pt-3 lg:hidden" aria-label="Mobile navigation">
+        <nav className="mobile-menu border-t border-white/10 px-5 pb-6 pt-3 lg:hidden" aria-label="Mobile navigation">
+          <a href="/" onClick={() => setOpen(false)} className={`mobile-link ${currentPath === "/" ? "active" : ""}`}>
+            Home
+          </a>
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="block rounded-xl px-3 py-3 text-slate-200 transition hover:bg-white/5"
+              className={`mobile-link ${currentPath === link.href ? "active" : ""}`}
             >
               {link.label}
             </a>
@@ -229,25 +287,56 @@ function Navbar() {
   );
 }
 
+function PageHero({ eyebrow, title, accent, copy, children }) {
+  return (
+    <section className="page-hero relative overflow-hidden pb-16 pt-36 sm:pb-20 sm:pt-44">
+      <div className="hero-grid absolute inset-0 opacity-55" />
+      <div className="brand-orb absolute left-1/2 top-28 h-80 w-80 -translate-x-1/2 rounded-full" />
+      <div className="page-enter relative mx-auto max-w-5xl px-5 text-center sm:px-8">
+        <p className="mb-5 text-sm font-semibold uppercase tracking-[0.22em] text-blue-400">{eyebrow}</p>
+        <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+          {title} {accent && <span className="gradient-text">{accent}</span>}
+        </h1>
+        <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-slate-300">{copy}</p>
+        {children}
+      </div>
+    </section>
+  );
+}
+
+function LogoStatement() {
+  return (
+    <div className="logo-statement glass-card mx-auto mt-14 flex max-w-4xl flex-col items-center gap-6 rounded-3xl px-6 py-8 sm:flex-row sm:text-left">
+      <BrandMark compact />
+      <div>
+        <p className="font-semibold text-white">Neutral foundation. Powerful stack.</p>
+        <p className="mt-2 text-sm leading-7 text-slate-400">
+          Our layered mark represents the connected design, technology, and support that help businesses scale
+          confidently online.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function Hero() {
   return (
-    <section id="home" className="relative overflow-hidden pb-20 pt-28 sm:pb-28 sm:pt-32 lg:pt-32">
+    <section className="relative overflow-hidden pb-20 pt-28 sm:pb-28 sm:pt-32 lg:pt-32">
       <div className="hero-grid absolute inset-0 opacity-50" />
-      <div className="absolute -left-56 top-40 h-[430px] w-[430px] rounded-full bg-violet/20 blur-[110px]" />
-      <div className="absolute right-0 top-20 h-[460px] w-[460px] rounded-full bg-electric/15 blur-[120px]" />
+      <div className="brand-orb absolute -left-48 top-40 h-[420px] w-[420px] rounded-full" />
+      <div className="brand-orb absolute right-0 top-24 h-[420px] w-[420px] rounded-full" />
       <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.05fr_0.95fr]">
-        <div>
+        <div className="page-enter">
           <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/[0.08] px-4 py-2 text-sm text-blue-300">
             <Sparkles className="h-4 w-4" />
             Premium digital experiences for modern businesses
           </div>
           <h1 className="max-w-2xl text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-[3.8rem] xl:text-[4.1rem]">
-            Build Your Business Online -{" "}
-            <span className="gradient-text">Faster Than Ever.</span>
+            Build Your Business Online - <span className="gradient-text">Faster Than Ever.</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">
-            Premium websites &amp; mobile apps for modern businesses without the traditional development hassle.
-            From planning through launch and support, one partner handles the technical work behind your growth.
+            Premium websites and mobile apps without the traditional development hassle. From strategy to support,
+            NeutralStack gives your business one accountable digital partner.
           </p>
           <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3">
             {heroFeatures.map((item) => (
@@ -257,28 +346,27 @@ function Hero() {
               </span>
             ))}
           </div>
-          <p className="mt-6 text-lg font-medium text-white">You focus on growth. We handle the tech.</p>
-          <div className="mt-7 flex flex-col gap-4 sm:flex-row">
-            <Button>Get Started</Button>
-            <Button href="#services" secondary>
+          <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+            <Button>Contact Us</Button>
+            <Button href="/services" secondary>
               Explore Services
             </Button>
           </div>
         </div>
 
-        <div className="relative">
+        <div className="hero-visual relative">
           <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-r from-violet/20 to-electric/20 blur-3xl animate-pulse-soft" />
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] p-2 shadow-violet backdrop-blur-xl sm:p-3">
             <img
               src="/hero-neutralstack.png"
-              alt="Glowing premium website and mobile app concept displayed on laptop and phone"
+              alt="Premium website and mobile app concept presented on laptop and phone"
               className="aspect-[1.72/1] w-full rounded-[1.45rem] object-cover"
             />
             <div className="absolute left-5 top-5 rounded-full border border-white/10 bg-[#0d1428]/75 px-4 py-2 text-xs font-medium text-white backdrop-blur-xl">
-              Website + Mobile Ecosystem
+              Digital Growth Ecosystem
             </div>
           </div>
-          <div className="glass-card absolute -bottom-7 left-4 flex items-center gap-3 rounded-2xl p-4 sm:-left-7 sm:p-5">
+          <div className="floating-badge glass-card absolute -bottom-7 left-4 flex items-center gap-3 rounded-2xl p-4 sm:-left-7 sm:p-5">
             <span className="rounded-xl bg-blue-500/15 p-3 text-blue-400">
               <Gauge className="h-5 w-5" />
             </span>
@@ -290,260 +378,6 @@ function Hero() {
         </div>
       </div>
     </section>
-  );
-}
-
-function Goal() {
-  return (
-    <section id="goal" className="section-spacing relative">
-      <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
-        <div>
-          <SectionIntro
-            eyebrow="Our Goal"
-            title="To simplify digital transformation for every business."
-            copy="NeutralStack helps businesses launch scalable websites and apps with flexible plans that grow with their needs. We turn digital ideas into dependable customer experiences without making business owners manage developers, hosting, or ongoing upgrades."
-          />
-          <p className="mt-7 text-xl font-medium text-white">Modern technology. Simple experience.</p>
-        </div>
-        <div className="relative grid gap-4 sm:grid-cols-3">
-          <div className="absolute left-[15%] right-[15%] top-14 hidden h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent sm:block" />
-          {goals.map(({ title, copy, icon: Icon }) => (
-            <div key={title} className="glass-card relative z-10 rounded-2xl p-6 transition duration-300 hover:-translate-y-1 hover:border-blue-400/30">
-              <div className="mb-7 flex h-12 w-12 items-center justify-center rounded-xl border border-blue-400/20 bg-blue-500/10 text-blue-400 shadow-glow">
-                <Icon className="h-6 w-6" />
-              </div>
-              <p className="text-base font-medium leading-7 text-white">{title}</p>
-              <p className="mt-3 text-sm leading-6 text-slate-400">{copy}</p>
-            </div>
-          ))}
-          <div className="sm:col-span-3">
-            <div className="glass-card flex flex-wrap items-center justify-center gap-4 rounded-2xl px-5 py-4 text-sm text-slate-300">
-              {[Globe, Smartphone, CloudCog, Headphones].map((Icon, index) => (
-                <span key={index} className="flex items-center gap-4">
-                  {index > 0 && <span className="hidden h-px w-8 bg-blue-400/40 sm:block" />}
-                  <Icon className="h-5 w-5 text-blue-400" />
-                </span>
-              ))}
-              <span className="font-medium text-white">One connected business ecosystem</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function WhyUs() {
-  return (
-    <section id="why-us" className="section-spacing relative">
-      <div className="absolute inset-x-0 top-1/3 h-72 bg-gradient-to-r from-violet/5 via-blue-500/10 to-violet/5 blur-3xl" />
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
-        <SectionIntro
-          eyebrow="Why NeutralStack"
-          title="Why Businesses Choose NeutralStack"
-          copy="Traditional development often leaves businesses coordinating multiple specialists and handling technical decisions alone. NeutralStack combines speed, ownership, and ongoing support in one relationship."
-          centered
-        />
-        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-6">
-          {features.map(({ title, copy, icon: Icon }, index) => (
-            <article
-              key={title}
-              className={`glass-card group rounded-2xl p-7 transition duration-300 hover:-translate-y-2 hover:border-blue-400/35 ${
-                index < 3 ? "lg:col-span-2" : "lg:col-span-3"
-              }`}
-            >
-              <div className="mb-6 inline-flex rounded-xl bg-gradient-to-br from-violet/25 to-blue-500/15 p-3 text-blue-300 transition group-hover:shadow-glow">
-                <Icon className="h-6 w-6" />
-              </div>
-              <h3 className="text-xl font-semibold text-white">{title}</h3>
-              <p className="mt-3 leading-7 text-slate-400">{copy}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Comparison() {
-  return (
-    <section id="comparison" className="section-spacing">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <SectionIntro
-          eyebrow="The Difference"
-          title="Traditional Development vs NeutralStack"
-          copy="A launch should be the beginning of a useful digital asset, not the point where technical responsibility is handed back to you."
-          centered
-        />
-        <div className="mt-14 grid gap-5 lg:grid-cols-2">
-          <div className="rounded-3xl border border-slate-700/40 bg-slate-900/45 p-6 sm:p-9">
-            <p className="mb-8 text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Traditional Freelancer</p>
-            <div className="space-y-5">
-              {traditional.map((item) => (
-                <p key={item} className="flex items-center gap-3 text-slate-400">
-                  <XCircle className="h-5 w-5 shrink-0 text-slate-600" />
-                  {item}
-                </p>
-              ))}
-            </div>
-          </div>
-          <div className="comparison-premium rounded-3xl p-[1px]">
-            <div className="h-full rounded-[calc(1.5rem-1px)] bg-[#0b142c]/95 p-6 sm:p-9">
-              <p className="mb-8 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-blue-300">
-                <Layers3 className="h-4 w-4" />
-                NeutralStack
-              </p>
-              <div className="space-y-5">
-                {modern.map((item) => (
-                  <p key={item} className="flex items-center gap-3 font-medium text-white">
-                    <CheckCircle2 className="h-5 w-5 shrink-0 text-blue-400" />
-                    {item}
-                  </p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-        <p className="mt-11 text-center text-xl font-medium text-white">
-          Not just development. <span className="gradient-text">A complete business ecosystem.</span>
-        </p>
-      </div>
-    </section>
-  );
-}
-
-function Services() {
-  return (
-    <section id="services" className="section-spacing">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <SectionIntro
-          eyebrow="What We Build"
-          title="Digital services shaped around your business"
-          copy="From your first online presence to a custom platform and mobile experience, we deliver the technology your customers expect."
-          centered
-        />
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map(({ title, copy, icon: Icon }) => (
-            <div key={title} className="service-card rounded-2xl p-6">
-              <Icon className="mb-4 h-6 w-6 shrink-0 text-blue-400" />
-              <p className="font-medium text-slate-100">{title}</p>
-              <p className="mt-2 text-sm leading-6 text-slate-400">{copy}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Process() {
-  return (
-    <section className="section-spacing">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <SectionIntro
-          eyebrow="How It Works"
-          title="A clear path from idea to launch"
-          copy="You always know what is being built, why it matters, and what happens after your digital experience goes live."
-          centered
-        />
-        <div className="relative mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          <div className="absolute left-10 right-10 top-[2.15rem] hidden h-px bg-gradient-to-r from-violet/10 via-blue-400/50 to-violet/10 lg:block" />
-          {process.map(({ title, copy }, index) => (
-            <article key={title} className="relative rounded-2xl border border-white/[0.07] bg-[#0b1327]/50 p-6">
-              <span className="relative z-10 mb-7 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-violet to-blue-600 text-sm font-semibold text-white shadow-glow">
-                {index + 1}
-              </span>
-              <h3 className="text-lg font-semibold text-white">{title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-400">{copy}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function AboutPage() {
-  return (
-    <>
-      <Navbar />
-      <main>
-        <section className="relative overflow-hidden pb-20 pt-36 sm:pb-24 sm:pt-44">
-          <div className="hero-grid absolute inset-0 opacity-50" />
-          <div className="absolute left-1/2 top-20 h-96 w-96 -translate-x-1/2 rounded-full bg-violet/15 blur-[110px]" />
-          <div className="relative mx-auto max-w-5xl px-5 text-center sm:px-8">
-            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.22em] text-blue-400">About NeutralStack</p>
-            <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Digital experiences built for businesses that want to{" "}
-              <span className="gradient-text">move forward.</span>
-            </h1>
-            <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-slate-300">
-              NeutralStack is a digital service company helping modern businesses establish, improve, and scale their
-              online presence through premium websites, mobile apps, and ongoing technical support.
-            </p>
-          </div>
-        </section>
-
-        <section className="section-spacing pt-8">
-          <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
-            <SectionIntro
-              eyebrow="Who We Are"
-              title="A simpler way to build with technology"
-              copy="Many businesses know they need better digital tools, but do not want the cost, uncertainty, or coordination involved in managing a traditional development project. NeutralStack exists to close that gap."
-            />
-            <div className="glass-card rounded-3xl p-7 sm:p-10">
-              <p className="text-lg leading-9 text-slate-300">
-                We create professional web and mobile experiences that reflect the quality of your business, serve
-                your customers well, and remain manageable after launch. Instead of handing over a finished project
-                and disappearing, we provide a foundation you can improve over time.
-              </p>
-              <p className="mt-6 text-lg leading-9 text-slate-300">
-                Whether you need a company website, an e-commerce store, a booking experience, a custom dashboard, or
-                a mobile application, our focus remains the same: clear communication, refined execution, and
-                technology that supports real business goals.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="section-spacing">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8">
-            <SectionIntro
-              eyebrow="Our Principles"
-              title="The standard behind every project"
-              copy="NeutralStack combines thoughtful strategy with modern delivery, giving businesses a partner that can build today and support tomorrow."
-              centered
-            />
-            <div className="mt-14 grid gap-5 lg:grid-cols-3">
-              {values.map(({ title, copy, icon: Icon }) => (
-                <article key={title} className="glass-card rounded-2xl p-7">
-                  <div className="mb-6 inline-flex rounded-xl bg-blue-500/10 p-3 text-blue-400">
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <h2 className="font-sans text-xl font-semibold text-white">{title}</h2>
-                  <p className="mt-4 leading-7 text-slate-400">{copy}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="pb-24 sm:pb-28">
-          <div className="mx-auto max-w-5xl px-5 sm:px-8">
-            <div className="cta-panel rounded-[2rem] px-6 py-14 text-center sm:px-12">
-              <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                Let&apos;s build a stronger online business.
-              </h2>
-              <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-300">
-                Tell NeutralStack about your goals and we will help you choose a practical, scalable digital solution.
-              </p>
-              <Button className="mt-9">Contact Us</Button>
-            </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </>
   );
 }
 
@@ -565,11 +399,9 @@ function ContactForm() {
         body: JSON.stringify(payload),
       });
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.message || "Unable to send your message.");
       }
-
       form.reset();
       setFormStatus({ type: "success", message: data.message });
     } catch (error) {
@@ -598,12 +430,9 @@ function ContactForm() {
           <span>Service Needed</span>
           <select name="service" defaultValue="">
             <option value="" disabled>Select a service</option>
-            <option>Business Website</option>
-            <option>E-commerce Website</option>
-            <option>Booking Platform</option>
-            <option>Mobile App</option>
-            <option>Custom Features</option>
-            <option>Maintenance & Hosting</option>
+            {services.map((service) => (
+              <option key={service.title}>{service.title}</option>
+            ))}
           </select>
         </label>
       </div>
@@ -636,7 +465,7 @@ function ContactForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet to-blue-600 px-8 py-4 font-semibold text-white shadow-glow transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_50px_rgba(59,130,246,0.5)] disabled:cursor-wait disabled:opacity-65 sm:w-auto"
+        className="brand-button mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 font-semibold text-white shadow-glow transition duration-300 hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-65 sm:w-auto"
       >
         <Send className="h-5 w-5" />
         {submitting ? "Sending..." : "Contact Us"}
@@ -645,59 +474,376 @@ function ContactForm() {
   );
 }
 
-function FinalCta() {
+function CtaBanner({ title = "Ready to build your digital presence?", copy = "Tell us what your business needs and we will guide you toward a practical launch plan." }) {
   return (
-    <section id="contact" className="pb-24 pt-12 sm:pb-28">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="cta-panel relative overflow-hidden rounded-[2rem] px-6 py-12 sm:px-12 lg:py-16">
-          <div className="absolute left-0 top-0 h-72 w-96 rounded-full bg-blue-500/20 blur-[90px]" />
-          <div className="relative grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-blue-300">Start Today</p>
-            <h2 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">Ready To Go Digital?</h2>
-            <p className="mt-6 text-lg leading-8 text-slate-300">
-              Launch your website or mobile app with NeutralStack. Share your idea and our team will contact you
-              about the right path forward.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              {["Fast", "Scalable", "Fully Managed"].map((item) => (
-                <span key={item} className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-sm text-white">
-                  <Check className="h-4 w-4 text-blue-400" />
-                  {item}
-                </span>
-              ))}
-            </div>
-            <p className="mt-8 flex items-center gap-2 text-sm text-slate-400">
-              <Mail className="h-4 w-4 text-blue-400" />
-              Inquiries are sent securely to adminneutralstack@gmail.com
-            </p>
-            </div>
-            <ContactForm />
-          </div>
+    <section className="pb-24 pt-6 sm:pb-28">
+      <div className="mx-auto max-w-5xl px-5 sm:px-8">
+        <div className="cta-panel reveal rounded-[2rem] px-6 py-14 text-center sm:px-12">
+          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</h2>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-300">{copy}</p>
+          <Button className="mt-9">Contact Us</Button>
         </div>
       </div>
     </section>
   );
 }
 
+function HomePage() {
+  return (
+    <>
+      <Hero />
+      <section className="section-spacing">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <SectionIntro
+            eyebrow="One Digital Partner"
+            title="Build, launch, and grow without technical friction"
+            copy="NeutralStack brings the essentials of an excellent online business together: premium design, modern development, mobile-ready delivery, and dependable ongoing support."
+            centered
+          />
+          <div className="mt-14 grid gap-5 md:grid-cols-3">
+            {goals.map(({ title, copy, icon: Icon }, index) => (
+              <article key={title} className="glass-card reveal rounded-2xl p-7" style={{ animationDelay: `${index * 90}ms` }}>
+                <div className="mb-6 inline-flex rounded-xl bg-blue-500/10 p-3 text-blue-400">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <h2 className="font-sans text-xl font-semibold text-white">{title}</h2>
+                <p className="mt-3 leading-7 text-slate-400">{copy}</p>
+              </article>
+            ))}
+          </div>
+          <div className="mt-10 flex justify-center">
+            <Button href="/why-us" secondary>Discover Why NeutralStack</Button>
+          </div>
+        </div>
+      </section>
+      <section className="section-spacing pt-4">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+          <SectionIntro
+            eyebrow="What We Build"
+            title="Web and mobile services designed for real businesses"
+            copy="Launch a polished website, customer app, commerce experience, or internal workflow with a team focused on clarity and measurable value."
+          />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {services.slice(0, 4).map(({ title, copy, icon: Icon }) => (
+              <article key={title} className="service-card rounded-2xl p-5">
+                <Icon className="mb-3 h-5 w-5 text-blue-400" />
+                <h2 className="font-sans font-medium text-white">{title}</h2>
+                <p className="mt-2 text-sm leading-6 text-slate-400">{copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div className="mt-10 text-center">
+          <Button href="/services">View All Services</Button>
+        </div>
+      </section>
+      <CtaBanner />
+    </>
+  );
+}
+
+function AboutPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="About NeutralStack"
+        title="A digital partner built for businesses ready to"
+        accent="move forward."
+        copy="NeutralStack helps modern businesses establish, improve, and scale their online presence through premium websites, mobile applications, and ongoing technical support."
+      >
+        <LogoStatement />
+      </PageHero>
+      <section className="section-spacing">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
+          <SectionIntro
+            eyebrow="Who We Are"
+            title="A simpler way to build with technology"
+            copy="Many businesses need stronger digital experiences but do not want the uncertainty and coordination of traditional development. NeutralStack exists to remove that friction."
+          />
+          <div className="glass-card reveal rounded-3xl p-7 sm:p-10">
+            <p className="text-lg leading-9 text-slate-300">
+              We create web and mobile experiences that reflect the quality of your business, support customers, and
+              remain manageable after launch. Instead of delivering a project and disappearing, we provide a digital
+              foundation that can improve over time.
+            </p>
+            <p className="mt-6 text-lg leading-9 text-slate-300">
+              Our aim is straightforward: modern technology should feel useful and understandable to business owners,
+              not like another complex operation they have to manage alone.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section className="section-spacing pt-4">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <SectionIntro eyebrow="Our Principles" title="The standard behind every project" centered />
+          <div className="mt-14 grid gap-5 lg:grid-cols-3">
+            {values.map(({ title, copy, icon: Icon }, index) => (
+              <article key={title} className="glass-card reveal rounded-2xl p-7" style={{ animationDelay: `${index * 90}ms` }}>
+                <div className="mb-6 inline-flex rounded-xl bg-blue-500/10 p-3 text-blue-400">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <h2 className="font-sans text-xl font-semibold text-white">{title}</h2>
+                <p className="mt-4 leading-7 text-slate-400">{copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <CtaBanner title="Build with a partner that stays involved." />
+    </>
+  );
+}
+
+function GoalPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Our Goal"
+        title="Make digital transformation"
+        accent="simple and practical."
+        copy="Businesses should be able to access excellent websites and applications without assembling expensive teams or managing technical complexity."
+      />
+      <section className="section-spacing">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="grid gap-5 md:grid-cols-3">
+            {goals.map(({ title, copy, icon: Icon }, index) => (
+              <article key={title} className="glass-card reveal rounded-3xl p-8" style={{ animationDelay: `${index * 110}ms` }}>
+                <Icon className="mb-7 h-8 w-8 text-blue-400" />
+                <h2 className="font-sans text-xl font-semibold text-white">{title}</h2>
+                <p className="mt-4 leading-7 text-slate-400">{copy}</p>
+              </article>
+            ))}
+          </div>
+          <div className="cta-panel mt-14 grid gap-8 rounded-3xl p-8 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:p-12">
+            <SectionIntro
+              eyebrow="Our Promise"
+              title="Modern technology. Simple experience."
+              copy="We translate business needs into scalable digital experiences with direct communication, clear priorities, and support that continues after launch."
+            />
+            <div className="grid gap-4 sm:grid-cols-2">
+              {["Clear planning", "Premium delivery", "Managed technology", "Flexible upgrades"].map((item) => (
+                <span key={item} className="glass-card flex items-center gap-3 rounded-xl p-4 text-white">
+                  <CheckCircle2 className="h-5 w-5 text-blue-400" />
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+      <CtaBanner />
+    </>
+  );
+}
+
+function ServicesPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Services"
+        title="Digital solutions designed to"
+        accent="move business."
+        copy="From premium company websites to mobile experiences and custom platforms, NeutralStack builds technology your customers can trust and your team can grow with."
+      />
+      <section className="section-spacing">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {services.map(({ title, copy, icon: Icon }, index) => (
+              <article key={title} className="service-card reveal rounded-2xl p-6" style={{ animationDelay: `${(index % 4) * 75}ms` }}>
+                <Icon className="mb-5 h-6 w-6 text-blue-400" />
+                <h2 className="font-sans text-lg font-semibold text-white">{title}</h2>
+                <p className="mt-3 text-sm leading-7 text-slate-400">{copy}</p>
+              </article>
+            ))}
+          </div>
+          <div className="mt-14 grid gap-5 lg:grid-cols-3">
+            {["Strategy & UI Design", "Development & Deployment", "Maintenance & Growth"].map((title, index) => (
+              <div key={title} className="glass-card rounded-2xl p-7">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-400">0{index + 1}</p>
+                <h2 className="mt-4 font-sans text-xl font-semibold text-white">{title}</h2>
+                <p className="mt-3 leading-7 text-slate-400">
+                  {[
+                    "Shape a clear solution, visual direction, and customer journey before development begins.",
+                    "Build, test, and launch an experience engineered for responsive performance and stability.",
+                    "Continue with reliable support, upgrades, improvements, and technical guidance.",
+                  ][index]}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <CtaBanner title="Need a digital solution built around your business?" />
+    </>
+  );
+}
+
+function WhyUsPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Why NeutralStack"
+        title="Built for companies that want"
+        accent="speed and ownership."
+        copy="A good digital partner should simplify delivery, remain accountable, and give your business room to evolve. That is the difference NeutralStack is designed to provide."
+      />
+      <section className="section-spacing">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {features.map(({ title, copy, icon: Icon }, index) => (
+              <article key={title} className="glass-card reveal rounded-2xl p-7" style={{ animationDelay: `${(index % 3) * 90}ms` }}>
+                <div className="mb-6 inline-flex rounded-xl bg-gradient-to-br from-violet/25 to-blue-500/15 p-3 text-blue-300">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <h2 className="font-sans text-xl font-semibold text-white">{title}</h2>
+                <p className="mt-3 leading-7 text-slate-400">{copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <CtaBanner title="Choose a team that grows with the work." />
+    </>
+  );
+}
+
+function ProcessPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="How It Works"
+        title="A clear process from idea to"
+        accent="lasting growth."
+        copy="Our process is built to keep decisions clear, timelines focused, and your digital experience supported after it becomes part of your business."
+      />
+      <section className="section-spacing">
+        <div className="mx-auto max-w-5xl px-5 sm:px-8">
+          <div className="space-y-5">
+            {process.map(({ title, copy, outcome }, index) => (
+              <article key={title} className="process-row reveal grid gap-5 rounded-3xl p-6 sm:grid-cols-[72px_1fr_auto] sm:items-center sm:p-8">
+                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet to-blue-600 text-lg font-semibold text-white shadow-glow">
+                  0{index + 1}
+                </span>
+                <div>
+                  <h2 className="font-sans text-xl font-semibold text-white">{title}</h2>
+                  <p className="mt-2 leading-7 text-slate-400">{copy}</p>
+                </div>
+                <span className="rounded-full border border-blue-400/20 bg-blue-500/10 px-4 py-2 text-sm text-blue-300">
+                  {outcome}
+                </span>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <CtaBanner title="Start with an idea. Launch with confidence." />
+    </>
+  );
+}
+
+function ComparisonPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Comparison"
+        title="Traditional delivery versus a"
+        accent="managed partner."
+        copy="A launch should begin the value of your digital investment, not leave you alone with maintenance, hosting, and the next feature request."
+      />
+      <section className="section-spacing">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <div className="grid gap-5 lg:grid-cols-2">
+            <article className="rounded-3xl border border-slate-700/40 bg-slate-900/45 p-6 sm:p-9">
+              <p className="mb-8 text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Traditional Freelancer</p>
+              <div className="space-y-5">
+                {traditional.map((item) => (
+                  <p key={item} className="flex items-start gap-3 text-slate-400">
+                    <XCircle className="mt-0.5 h-5 w-5 shrink-0 text-slate-600" />
+                    {item}
+                  </p>
+                ))}
+              </div>
+            </article>
+            <article className="comparison-premium rounded-3xl p-[1px]">
+              <div className="h-full rounded-[calc(1.5rem-1px)] bg-[#0b142c]/95 p-6 sm:p-9">
+                <p className="mb-8 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-blue-300">
+                  <Layers3 className="h-4 w-4" />
+                  NeutralStack
+                </p>
+                <div className="space-y-5">
+                  {modern.map((item) => (
+                    <p key={item} className="flex items-start gap-3 font-medium text-white">
+                      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-blue-400" />
+                      {item}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </article>
+          </div>
+          <p className="mt-12 text-center text-2xl font-medium text-white">
+            Not just development. <span className="gradient-text">A complete business ecosystem.</span>
+          </p>
+        </div>
+      </section>
+      <CtaBanner title="Replace technical stress with managed progress." />
+    </>
+  );
+}
+
+function ContactPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Contact Us"
+        title="Tell us what you want to"
+        accent="build next."
+        copy="Share your business idea, existing challenge, or upcoming launch. We will review your needs and respond with the right next conversation."
+      />
+      <section className="pb-24 pt-6 sm:pb-28">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+          <aside className="space-y-5">
+            <div className="cta-panel rounded-3xl p-7">
+              <h2 className="font-sans text-2xl font-semibold text-white">Start a project</h2>
+              <p className="mt-4 leading-8 text-slate-300">
+                Provide a few details and our inquiry notification is sent securely to the NeutralStack team.
+              </p>
+              <p className="mt-6 flex items-center gap-3 text-sm text-slate-300">
+                <Mail className="h-5 w-5 text-blue-400" />
+                adminneutralstack@gmail.com
+              </p>
+            </div>
+            {["Fast response", "Flexible project scope", "Managed after launch"].map((item) => (
+              <p key={item} className="glass-card flex items-center gap-3 rounded-xl p-4 text-white">
+                <Check className="h-5 w-5 text-blue-400" />
+                {item}
+              </p>
+            ))}
+          </aside>
+          <ContactForm />
+        </div>
+      </section>
+    </>
+  );
+}
+
 function Footer() {
   return (
     <footer className="border-t border-white/[0.07] bg-[#070c19]">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-8 md:grid-cols-[1.4fr_0.8fr_0.9fr]">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-8 md:grid-cols-[1.25fr_1fr_0.9fr]">
         <div>
-          <a href="/" className="flex items-center gap-3 text-xl font-semibold text-white">
-            <Layers3 className="h-6 w-6 text-blue-400" />
-            NeutralStack
+          <a href="/" aria-label="NeutralStack home">
+            <BrandMark />
           </a>
           <p className="mt-4 max-w-sm leading-7 text-slate-400">
             Premium websites and mobile apps for modern businesses, built and managed by a long-term digital partner.
           </p>
         </div>
         <div>
-          <p className="mb-5 text-sm font-semibold uppercase tracking-wider text-white">Quick Links</p>
-          <div className="space-y-3">
-            {navLinks.slice(1).map((link) => (
-              <a key={link.label} href={link.href} className="block text-sm text-slate-400 transition hover:text-white">
+          <p className="mb-5 text-sm font-semibold uppercase tracking-wider text-white">Pages</p>
+          <div className="grid grid-cols-2 gap-y-3">
+            {navLinks.map((link) => (
+              <a key={link.label} href={link.href} className="text-sm text-slate-400 transition hover:text-white">
                 {link.label}
               </a>
             ))}
@@ -716,30 +862,43 @@ function Footer() {
   );
 }
 
-function HomePage() {
-  return (
-    <>
-      <Navbar />
-      <main>
-        <Hero />
-        <Goal />
-        <WhyUs />
-        <Comparison />
-        <Services />
-        <Process />
-        <FinalCta />
-      </main>
-      <Footer />
-    </>
-  );
-}
+const routes = {
+  "/": HomePage,
+  "/about": AboutPage,
+  "/goal": GoalPage,
+  "/services": ServicesPage,
+  "/why-us": WhyUsPage,
+  "/process": ProcessPage,
+  "/comparison": ComparisonPage,
+  "/contact": ContactPage,
+};
+
+const pageTitles = {
+  "/": "NeutralStack | Premium Websites and Mobile Apps",
+  "/about": "About Us | NeutralStack",
+  "/goal": "Our Goal | NeutralStack",
+  "/services": "Services | NeutralStack",
+  "/why-us": "Why NeutralStack | NeutralStack",
+  "/process": "How It Works | NeutralStack",
+  "/comparison": "NeutralStack vs Traditional Development | NeutralStack",
+  "/contact": "Contact Us | NeutralStack",
+};
 
 export default function App() {
-  const isAboutPage = window.location.pathname.replace(/\/+$/, "") === "/about";
+  const path = window.location.pathname.replace(/\/+$/, "") || "/";
+  const CurrentPage = routes[path] || HomePage;
+
+  useEffect(() => {
+    document.title = pageTitles[path] || pageTitles["/"];
+  }, [path]);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#070c19] text-slate-100">
-      {isAboutPage ? <AboutPage /> : <HomePage />}
+      <Navbar currentPath={path} />
+      <main>
+        <CurrentPage />
+      </main>
+      <Footer />
     </div>
   );
 }
